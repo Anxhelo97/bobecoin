@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BOBE Coin</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+</head>
+<body>
+  <script>
+    var config = {
+        type: Phaser.AUTO,
+        width: window.innerWidth,
+        height: window.innerHeight,
+        physics: {
+            default: 'arcade',
+            arcade: {
+                gravity: { y: 0 }
+            }
+        },
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+
+    var score = 0;
+    var scoreText;
+
+    var game = new Phaser.Game(config);
+
+    function preload () {
+        this.load.image('background', 'path/to/your/background.jpg'); // Realistic background
+        this.load.image('target', 'path/to/your/target_image.png'); // Realistic target image
+    }
+
+    function create () {
+        // Add background
+        this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'background').setDisplaySize(window.innerWidth, window.innerHeight);
+        
+        // Add score text
+        scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#fff' });
+
+        // Add a target to click on
+        var target = this.add.sprite(window.innerWidth / 2, window.innerHeight / 2, 'target');
+        target.setInteractive();
+        target.on('pointerdown', tapTarget, this);
+    }
+
+    function tapTarget () {
+        score += 10;
+        scoreText.setText('Score: ' + score);
+
+        // Move target to a new random location
+        this.x = Phaser.Math.Between(100, window.innerWidth - 100);
+        this.y = Phaser.Math.Between(100, window.innerHeight - 100);
+    }
+
+    function update () {
+    }
+  </script>
+</body>
+</html>
